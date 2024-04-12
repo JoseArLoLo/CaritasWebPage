@@ -34,27 +34,33 @@ incluirTemplate('header');
     </section>
 </main>
 <script>
-    const thumbnails = document.querySelectorAll('.gallery img');
-    const modal = document.querySelector('.modal');
-    const modalImage = document.getElementById('modal-image');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const closeBtn = document.querySelector('.close');
-
     let currentIndex = 0;
+    document.addEventListener('DOMContentLoaded', function() {
+        const thumbnails = document.querySelectorAll('.gallery img');
+        const modal = document.querySelector('.modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const closeBtn = document.querySelector('.close');
 
-    // Función para mostrar el visualizador con la imagen ampliada
-    function showModal(index) {
-        modalImage.src = thumbnails[index].src;
-        modalTitle.textContent = thumbnails[index].getAttribute('data-title');
-        modalDescription.textContent = thumbnails[index].getAttribute('data-description');
-        modal.style.display = 'block';
-        currentIndex = index;
-    }
+        // Función para mostrar el visualizador con la imagen ampliada
+        function showModal(index) {
+            modalImage.src = thumbnails[index].src;
+            modalTitle.textContent = thumbnails[index].getAttribute('data-title');
+            modalDescription.textContent = thumbnails[index].getAttribute('data-description');
+            modal.style.display = 'block';
+            currentIndex = index;
+        }
 
-    // Función para cerrar el visualizador
+        // Event listeners para miniaturas
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', () => {
+                showModal(index);
+            });
+        });
+        // Función para cerrar el visualizador
     function closeModal() {
         modal.style.display = 'none';
     }
@@ -70,17 +76,11 @@ incluirTemplate('header');
         currentIndex = (currentIndex + 1) % thumbnails.length;
         showModal(currentIndex);
     }
-
-    // Event listeners para miniaturas
-    thumbnails.forEach((thumbnail, index) => {
-        thumbnail.addEventListener('click', () => {
-            showModal(index);
-        });
-    });
-
     // Event listeners para botones de navegación
     prevBtn.addEventListener('click', showPrevImage);
     nextBtn.addEventListener('click', showNextImage);
     closeBtn.addEventListener('click', closeModal);
+    });
+    
 </script>
 <?php incluirTemplate('footer'); ?>
